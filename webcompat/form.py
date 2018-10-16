@@ -103,6 +103,7 @@ def get_form(form_data):
     ua_header = form_data['user_agent']
     # Populate the form
     bug_form.browser.data = get_browser(ua_header)
+    bug_form.details.data = json.dumps(form_data.get('details'))
     bug_form.extra_labels = form_data.get('extra_labels', None)
     bug_form.os.data = get_os(ua_header)
     bug_form.reported_with.data = form_data.get('src', 'web')
@@ -119,7 +120,6 @@ def get_details(details_string):
     """
     content = details_string
     rv = ''
-
     try:
         details = json.loads(content)
         rv = ''.join(['<li>{k}: {v}</li>'.format(k=k, v=get_str_value(v))
